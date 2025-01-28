@@ -18,6 +18,9 @@ spec:
           name: cmp-plugin
         - name: custom-tools
           emptyDir: {}
+        - name: gpg2-keys
+          secret:
+            secretName: gpg2
 
       # Download tools
       initContainers:
@@ -66,6 +69,8 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
+          - name: gpg2-keys
+            mountPath: /home/argocd/.gnupg
 
       # argocd-vault-plugin with Kustomize
       - name: avp-kustomize
@@ -94,6 +99,8 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
+          - name: gpg2-keys
+            mountPath: /home/argocd/.gnupg
 
 
       # argocd-vault-plugin with plain YAML
@@ -123,4 +130,6 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
+          - name: gpg2-keys
+            mountPath: /home/argocd/.gnupg
 
