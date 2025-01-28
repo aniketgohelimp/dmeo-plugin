@@ -40,6 +40,7 @@ spec:
             curl -skL -o sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && 
             chmod +x sops && mv sops /custom-tools/
 
+
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
@@ -73,7 +74,8 @@ spec:
             subPath: sops
             mountPath: /usr/local/bin/sops
           - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg
+            mountPath: /home/argocd/.gnupg/demo.key.rsa
+            subPath: demo.key.rsa
 
       # argocd-vault-plugin with Kustomize
       - name: avp-kustomize
@@ -103,7 +105,8 @@ spec:
             subPath: sops
             mountPath: /usr/local/bin/sops
           - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg
+            mountPath: /home/argocd/.gnupg/demo.key.rsa
+            subPath: demo.key.rsa
 
 
       # argocd-vault-plugin with plain YAML
@@ -134,5 +137,6 @@ spec:
             subPath: sops
             mountPath: /usr/local/bin/sops
           - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg
+            mountPath: /home/argocd/.gnupg/demo.key.rsa
+            subPath: demo.key.rsa
 
