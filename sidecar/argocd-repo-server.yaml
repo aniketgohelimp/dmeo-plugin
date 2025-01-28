@@ -42,7 +42,7 @@ spec:
             mv argocd-vault-plugin /custom-tools/ && 
             curl -skL -o sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && 
             chmod +x sops && mv sops /custom-tools/ &&
-            gpg --import /gnupg/demo.key.rsa
+            gpg --import /gnupg/demo.key.rsa && chmod 777 -R /custom-tools/.gnupg
 
 
 
@@ -62,6 +62,9 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
+        env:
+          - name: GNUPGHOME
+            value: /home/argocd/data/.gnupg
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -82,9 +85,8 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
-          - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg/demo.key.rsa
-            subPath: demo.key.rsa
+          - mountPath: /home/argocd/data
+            name: custom-tools
 
       # argocd-vault-plugin with Kustomize
       - name: avp-kustomize
@@ -93,6 +95,9 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
+        env:
+          - name: GNUPGHOME
+            value: /home/argocd/data/.gnupg
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -113,9 +118,8 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
-          - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg/demo.key.rsa
-            subPath: demo.key.rsa
+          - mountPath: /home/argocd/data
+            name: custom-tools
 
 
       # argocd-vault-plugin with plain YAML
@@ -125,6 +129,9 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
+        env:
+          - name: GNUPGHOME
+            value: /home/argocd/data/.gnupg
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -145,7 +152,6 @@ spec:
           - name: custom-tools
             subPath: sops
             mountPath: /usr/local/bin/sops
-          - name: gpg2-keys
-            mountPath: /home/argocd/.gnupg/demo.key.rsa
-            subPath: demo.key.rsa
+          - mountPath: /home/argocd/data
+            name: custom-tools
 
