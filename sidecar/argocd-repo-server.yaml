@@ -31,6 +31,9 @@ spec:
             value: 1.18.0
           - name: SOPS_VERSION
             value: 3.9.4
+          - name: GNUPGHOME
+            value: /custom-tools/.gnupg
+
         command: [sh, -c]
         args:
           - >-
@@ -38,12 +41,18 @@ spec:
             chmod +x argocd-vault-plugin &&
             mv argocd-vault-plugin /custom-tools/ && 
             curl -skL -o sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && 
-            chmod +x sops && mv sops /custom-tools/
+            chmod +x sops && mv sops /custom-tools/ &&
+            gpg --import /gnupg/demo.key.rsa
+
+
 
 
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
+          - name: gpg2-keys
+            mountPath: /gnupg/demo.key.rsa
+            subPath: demo.key.rsa
 
       # argocd-vault-plugin with Helm
       containers:
