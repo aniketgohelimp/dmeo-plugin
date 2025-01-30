@@ -6,7 +6,7 @@ images:
     newTag: v2.6.4
 
 resources:
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.4/manifests/install.yaml
+- demo.yaml
 - cmp-plugin.yaml
 
 patchesStrategicMerge:
