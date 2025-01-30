@@ -3,10 +3,10 @@ kind: Kustomization
 
 images:
   - name: quay.io/argoproj/argocd
-    newTag: v2.7.9
+    newTag: v2.6.4
 
 resources:
-- https://github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.7.9
+- https://github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.6.4
 - cmp-plugin.yaml
 
 patchesStrategicMerge:

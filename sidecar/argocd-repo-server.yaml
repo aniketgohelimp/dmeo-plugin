@@ -5,12 +5,10 @@ metadata:
 spec:
   template:
     spec:
-
       # Mount SA token for Kubernets auth
       # Note: In 2.4.0 onward, there is a dedicated SA for repo-server (not default)
       # Note: This is not fully supported for Kubernetes < v1.19
       automountServiceAccountToken: true
-
       # Each of the embedded YAMLs inside cmp-plugin ConfigMap will be mounted into it's respective plugin sidecar
       volumes:
         - configMap:
@@ -21,7 +19,6 @@ spec:
         - name: gpg2-keys
           secret:
             secretName: gpg2
-
       # Download tools
       initContainers:
       - name: download-tools
@@ -33,7 +30,6 @@ spec:
             value: 3.9.4
           - name: GNUPGHOME
             value: /custom-tools/.gnupg
-
         command: [sh, -c]
         args:
           - >-
@@ -43,17 +39,12 @@ spec:
             curl -skL -o sops https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && 
             chmod +x sops && mv sops /custom-tools/ &&
             gpg --import /gnupg/demo.key.rsa && chmod 777 -R /custom-tools/.gnupg
-
-
-
-
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
           - name: gpg2-keys
             mountPath: /gnupg/demo.key.rsa
             subPath: demo.key.rsa
-
       # argocd-vault-plugin with Helm
       containers:
       - name: avp-helm
@@ -72,12 +63,10 @@ spec:
             name: plugins
           - mountPath: /tmp
             name: tmp
-
           # Register plugins into sidecar
           - mountPath: /home/argocd/cmp-server/config/plugin.yaml
             subPath: avp-helm.yaml
             name: cmp-plugin
-
           # Important: Mount tools into $PATH
           - name: custom-tools
             subPath: argocd-vault-plugin
@@ -87,7 +76,6 @@ spec:
             mountPath: /usr/local/bin/sops
           - mountPath: /home/argocd/data
             name: custom-tools
-
       # argocd-vault-plugin with Kustomize
       - name: avp-kustomize
         command: [/var/run/argocd/argocd-cmp-server]
@@ -105,13 +93,9 @@ spec:
             name: plugins
           - mountPath: /tmp
             name: tmp
-
-          # Register plugins into sidecar
           - mountPath: /home/argocd/cmp-server/config/plugin.yaml
             subPath: avp-kustomize.yaml
             name: cmp-plugin
-
-          # Important: Mount tools into $PATH
           - name: custom-tools
             subPath: argocd-vault-plugin
             mountPath: /usr/local/bin/argocd-vault-plugin
@@ -120,8 +104,6 @@ spec:
             mountPath: /usr/local/bin/sops
           - mountPath: /home/argocd/data
             name: custom-tools
-
-
       # argocd-vault-plugin with plain YAML
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
@@ -139,12 +121,10 @@ spec:
             name: plugins
           - mountPath: /tmp
             name: tmp
-
           # Register plugins into sidecar
           - mountPath: /home/argocd/cmp-server/config/plugin.yaml
             subPath: avp.yaml
             name: cmp-plugin
-
           # Important: Mount tools into $PATH
           - name: custom-tools
             subPath: argocd-vault-plugin
