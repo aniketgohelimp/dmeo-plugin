@@ -26,6 +26,8 @@ spec:
         env:
           - name: AVP_VERSION
             value: 1.18.0
+          - name: AVP_TYPE
+            value: sops
           - name: SOPS_VERSION
             value: 3.9.4
           - name: GNUPGHOME
@@ -56,6 +58,8 @@ spec:
         env:
           - name: GNUPGHOME
             value: /home/argocd/data/.gnupg
+          - name: AVP_TYPE
+            value: sops
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -114,6 +118,8 @@ spec:
         env:
           - name: GNUPGHOME
             value: /home/argocd/data/.gnupg
+          - name: AVP_TYPE
+            value: sops
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
