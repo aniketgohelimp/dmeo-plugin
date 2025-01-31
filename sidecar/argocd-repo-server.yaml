@@ -27,7 +27,7 @@ spec:
           - name: AVP_VERSION
             value: 1.18.0
           - name: SOPS_VERSION
-            value: 3.9.4
+            value: 3.9.3
           - name: GNUPGHOME
             value: /custom-tools/.gnupg
         command: [sh, -c]
