@@ -7,7 +7,7 @@ images:
 
 resources:
 - https://github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.6.4
-- cmp-plugin.yaml
+# - cmp-plugin.yaml
 
 patchesStrategicMerge:
-- argocd-repo-server.yaml
+# - argocd-repo-server.yaml
