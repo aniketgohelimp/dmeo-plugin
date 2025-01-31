@@ -6,7 +6,7 @@ images:
     newTag: v2.6.4
 
 resources:
-- demo.yaml
+- https://github.com/argoproj/argo-cd//manifests/cluster-install?ref=v2.6.4
 - cmp-plugin.yaml
 
 patchesStrategicMerge:
